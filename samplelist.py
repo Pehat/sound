@@ -14,7 +14,7 @@ def split_stereo(s):
         result_right.append(sample)
         i += sample_width
         
-    return "".join(result_left), "".join(result_right)
+    return b"".join(result_left), b"".join(result_right)
 
 def join_stereo(sl, sr):
     result = []
@@ -25,7 +25,7 @@ def join_stereo(sl, sr):
         result.append(sl[i:i + sample_width])
         result.append(sr[i:i + sample_width])
         i += sample_width
-    return "".join(result)
+    return b"".join(result)
     
 
 def str_to_list(s):
@@ -61,7 +61,7 @@ def list_to_str(l):
     result = []
     for sample in l:
         result.append(struct.pack('h', sample))
-    return "".join(result)
+    return b"".join(result)
 
     
 def list_to_str_stereo(l_left, l_right):
@@ -69,11 +69,11 @@ def list_to_str_stereo(l_left, l_right):
     for sample_left, sample_right in zip(l_left, l_right):
         result.append(struct.pack('h', sample_left))
         result.append(struct.pack('h', sample_right))
-    return "".join(result)
+    return b"".join(result)
     
 
 
 def complete_silence(pattern, offset, length):
-    d = chr(0) * 2
-    return (d * offset) + pattern + d * (length - offset - len(pattern) / 2)
+    d = b"\0\0"
+    return (d * offset) + pattern + d * (length - offset - len(pattern) // 2)
 
